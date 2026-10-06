@@ -63,6 +63,8 @@ function saveDB() {
 app.use(express.json({ limit: "1mb" }));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.get("/health", (req, res) => res.status(200).send("OK"));
+
 app.get("/api/state", (req, res) => {
   res.json(db);
 });
@@ -193,7 +195,7 @@ setInterval(() => {
   io.emit("state", db);
 }, 5000);
 
-app.get("*splat", (req, res) => {
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
